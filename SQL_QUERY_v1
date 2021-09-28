@@ -1,0 +1,9 @@
+--Selecting current year Covid data for Ohio and the United States
+--Particularly interested in comparing cumulative deaths to total population, cumulative vaccinations as a percentage of total population, and cumulative confirmed cases as a percent of total tests
+SELECT date, location_key, new_confirmed, new_deceased, new_persons_vaccinated, population current_hospitalized_patients, current_intensive_care_patients, cumulative_deceased, 
+(cumulative_deceased/population)*100 AS deceased_percentage_population,
+(cumulative_persons_vaccinated/population)*100 AS vaccinated_percentage_population,
+(cumulative_confirmed/cumulative_tested)*100 AS positive_test_rate
+FROM`bigquery-public-data.covid19_open_data.covid19_open_data`
+WHERE location_key like 'US_OH' AND new_confirmed is not null AND date >= '2021-01-01' OR location_key = 'US' AND new_confirmed is not null AND date >= '2021-01-01'
+order by 2, 1
